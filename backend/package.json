@@ -1,0 +1,23 @@
+{
+  "name": "nexusdrop-backend",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "dotenv": "^18.0.7",
+    "express": "^4.21.2",
+    "mongodb": "^7.7.0",
+    "socket.io": "^4.8.1"
+  },
+  "devDependencies": {
+    "socket.io-client": "^4.8.1"
+  },
+  "engines": {
+    "node": ">=20.19"
+  }
+}
