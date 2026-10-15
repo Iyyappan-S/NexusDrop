@@ -27,7 +27,6 @@ export async function connectDatabase() {
 
 export function isDatabaseEnabled() { return Boolean(transfers); }
 
-// Intentionally persist aggregate transfer metadata only: no contents, filename, MIME, IP, room ID, or tokens.
 export async function recordFileOffer({ transferId, sizeBytes }) {
   if (typeof transferId !== 'string' || !/^[0-9a-f-]{36}$/i.test(transferId) || !Number.isSafeInteger(sizeBytes) || sizeBytes < 0 || sizeBytes > 50 * 1024 ** 3) {
     throw new TypeError('Invalid transfer metadata.');
