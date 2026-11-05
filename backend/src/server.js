@@ -4,7 +4,6 @@ import http from 'node:http';
 import { randomBytes, timingSafeEqual } from 'node:crypto';
 import { Server } from 'socket.io';
 import { closeDatabase, connectDatabase, isDatabaseEnabled, recordFileOffer, updateTransferState } from './database.js';
-
 const PORT = Number(process.env.PORT ?? 3001);
 const origins = (process.env.ALLOWED_ORIGINS || 'http://localhost:5173').split(',').map(x => x.trim());
 const ROOM_TTL_MS = Number(process.env.ROOM_TTL_MS || 60 * 60 * 1000);
@@ -27,7 +26,6 @@ const expire = () => { const now = Date.now(); for (const [id, room] of rooms) i
 const cleanupTimer = setInterval(expire, 60_000).unref();
 const validData = (d, max = 8192) => d && typeof d === 'object' && !Array.isArray(d) && JSON.stringify(d).length <= max;
 const error = (socket, code, message) => socket.emit('error:protocol', { code, message });
-
 io.on('connection', socket => {
   let membership = null;
   let createTimes = socket.data.createTimes || (socket.data.createTimes = []);
@@ -104,7 +102,6 @@ io.on('connection', socket => {
     else { room.receiver = null; room.accepted = false; io.to(room.sender).emit('room:participant', { role, state: 'disconnected' }); }
   });
 });
-
 const listen = () => server.listen(PORT, '0.0.0.0', () => console.log(`NexusDrop signaling listening on ${PORT}`));
 if (process.env.MONGODB_URI?.trim()) connectDatabase().then(listen).catch(() => { console.error('NexusDrop could not connect to MongoDB; check URI, network access, and credentials.'); process.exit(1); });
 else listen();
